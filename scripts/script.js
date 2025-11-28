@@ -1,21 +1,37 @@
-const allElements = document.querySelectorAll('*');
+function addImages() {
 
-allElements.forEach(element => {
+    let imagesUrl = [
+        "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/3527290/bd3771d9a3827610b2742de13d8552918008c302/header_alt_assets_2.jpg?t=1764003551",
+        "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/730/header.jpg?t=1749053861",
+        "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/582500/header.jpg?t=1764329099",
+        "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1286680/header.jpg?t=1737970341",
+        "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1938090/06107605348820087bb51ca89ed620c22fe559aa/header.jpg?t=1763413871",
+    ];
 
-    let originalBackgroundColor = '';
+    let fragment = document.createDocumentFragment();
+    let parent = document.querySelector('.trending .games');
 
-    element.addEventListener('mouseenter', function(event) {
+    imagesUrl.forEach((url, index) => {
+        setTimeout(() => {
 
-        event.stopPropagation();
+            let block = document.createElement("div");
+            block.className = "block";
 
-        originalBackgroundColor = window.getComputedStyle(this).backgroundColor;
+            let img = document.createElement("img");
+            img.src = url;
+            img.alt = "New Game " + (index + 1);
 
-        this.style.backgroundColor = 'red';
+            let span = document.createElement("span");
+            span.textContent = `Кооперативна гра ${index + 1}`; 
+
+            block.appendChild(img);
+            block.appendChild(span);
+
+            fragment.appendChild(block);
+            parent.appendChild(fragment);
+
+        }, index * 1000);
     });
+}
 
-    element.addEventListener('mouseleave', function(event) {
-        event.stopPropagation();
-
-        this.style.backgroundColor = originalBackgroundColor;
-    });
-});
+setTimeout(addImages, 5000);
