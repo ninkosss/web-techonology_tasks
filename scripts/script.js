@@ -1,37 +1,38 @@
-function addImages() {
+const loginForm = document.querySelector('form');
 
-    let imagesUrl = [
-        "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/3527290/bd3771d9a3827610b2742de13d8552918008c302/header_alt_assets_2.jpg?t=1764003551",
-        "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/730/header.jpg?t=1749053861",
-        "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/582500/header.jpg?t=1764329099",
-        "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1286680/header.jpg?t=1737970341",
-        "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1938090/06107605348820087bb51ca89ed620c22fe559aa/header.jpg?t=1763413871",
-    ];
+loginForm.addEventListener('submit', function(event) {
+    event.preventDefault();
+    const loginInput = document.getElementById('login');
+    const emailInput = document.getElementById('email');
+    const phoneInput = document.getElementById('phone');
+    const passwordInput = document.getElementById('password');
+    
+    const login = loginInput.value;
+    const email = emailInput.value.trim();
+    const phone = phoneInput.value.trim();
+    const password = passwordInput.value;
 
-    let fragment = document.createDocumentFragment();
-    let parent = document.querySelector('.trending .games');
+    const errors = [];
 
-    imagesUrl.forEach((url, index) => {
-        setTimeout(() => {
+    if (login && !login.match(/^[a-zA-Z0-9_]{3,}$/)) {
+        errors.push('Логін має містити мінімум 3 символи (латиниця, цифри, _)');
+    }
 
-            let block = document.createElement("div");
-            block.className = "block";
+    if (!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+        errors.push('Невірний формат електронної пошти');
+    }
 
-            let img = document.createElement("img");
-            img.src = url;
-            img.alt = "New Game " + (index + 1);
+    if (phone.search(/^\+380\d{9}$/) === -1) {
+        errors.push('Телефон має бути у форматі +380XXXXXXXXX');
+    }
 
-            let span = document.createElement("span");
-            span.textContent = `Кооперативна гра ${index + 1}`; 
+    if (!password || password.search(/\s/) !== -1 || password.length < 8) {
+        errors.push('Пароль має містити щонайменше 8 символів та не повинен містити пробілів.');
+    }
 
-            block.appendChild(img);
-            block.appendChild(span);
+    if (errors.length > 0) {
+        alert(errors.join('\n'));
+        return;
+    }
+});
 
-            fragment.appendChild(block);
-            parent.appendChild(fragment);
-
-        }, index * 1000);
-    });
-}
-
-setTimeout(addImages, 5000);
