@@ -1,8 +1,12 @@
 const loginForm = document.querySelector('form');
+const loginInput = document.getElementById('login');
+
+loginInput.addEventListener('input', function() {
+    this.value = this.value.replace(/[^a-zA-Z0-9_]/g, '');
+});
 
 loginForm.addEventListener('submit', function(event) {
     event.preventDefault();
-    const loginInput = document.getElementById('login');
     const emailInput = document.getElementById('email');
     const phoneInput = document.getElementById('phone');
     const passwordInput = document.getElementById('password');
