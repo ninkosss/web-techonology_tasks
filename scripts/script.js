@@ -1,18 +1,21 @@
-const paragraphCount = document.querySelectorAll('p').length;
-console.log(`Кількість параграфів <p>: ${paragraphCount}`);
+const allElements = document.querySelectorAll('*');
 
+allElements.forEach(element => {
 
-const h2Count = document.querySelectorAll('h2').length;
-console.log(`Кількість заголовків <h2>: ${h2Count}`);
+    let originalBackgroundColor = '';
 
+    element.addEventListener('mouseenter', function(event) {
 
-const bodyBackgroundColor = window.getComputedStyle(document.body).getPropertyValue('background-color');
-console.log(`Значення background-color <body>: ${bodyBackgroundColor}`);
+        event.stopPropagation();
 
+        originalBackgroundColor = window.getComputedStyle(this).backgroundColor;
 
-const wrapperGradient = document.querySelector('.wrapper');
-const actualBackground = window.getComputedStyle(wrapperGradient).getPropertyValue('background-image');
-console.log(`Фактичний градієнт сторінки: ${actualBackground}`);
+        this.style.backgroundColor = 'red';
+    });
 
-const h1FontSize = window.getComputedStyle(document.querySelector('h1')).getPropertyValue('font-size');
-console.log(`Значення font-size <h1>: ${h1FontSize}`);
+    element.addEventListener('mouseleave', function(event) {
+        event.stopPropagation();
+
+        this.style.backgroundColor = originalBackgroundColor;
+    });
+});
