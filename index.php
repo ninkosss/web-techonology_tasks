@@ -56,6 +56,13 @@ $currentPage = basename($_SERVER['PHP_SELF']) ?: 'index.php';
                 </div>
                 <img src="./img/joystick.svg" alt="Геймпад">
             </div>
+            <div style="text-align: center; margin-top: 50px">
+                <h2>Порівняння</h2>
+                <input id="textInput1" type="text" placeholder="Введіть текст..." style="width: 300px; padding: 8px; margin: 10px" /><br>
+                <input id="textInput2" type="text" placeholder="Введіть текст..." style="width: 300px; padding: 8px; margin: 10px" /><br>
+                <button id="checkBtn">Перевірити</button>
+                <p id="result"></p>
+            </div>
             <div class="container trending">
                 <a href="#" class="see-all">See all</a>
                 <h3>Currently Trending Games</h3>
