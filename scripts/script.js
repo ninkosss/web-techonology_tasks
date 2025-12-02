@@ -77,30 +77,24 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
-
-    // Скрипт Set
-    document.getElementById('checkBtn')?.addEventListener('click', () => {
-        const input1 = document.getElementById('textInput1').value.trim().toLowerCase();
-        const input2 = document.getElementById('textInput2').value.trim().toLowerCase();
-
-        if (!input1 || !input2) {
-            document.getElementById('result').textContent = 'Будь ласка, введіть обидва тексти.';
-            return;
+    // Асинхронна функція для API Chess (Games)
+    async function fetchChessPlayer() {
+        try {
+            const response = await fetch('https://api.chess.com/pub/player/Duhless'); 
+            if (!response.ok) {
+                throw new Error('Помилка завантаження');
+            }
+            const data = await response.json();
+            const username = data.username;
+            const avatar = data.avatar;
+            const resultDiv = document.getElementById('chessResult');
+            resultDiv.innerHTML = `<p>Ім'я: ${username}</p>`;
+            if (avatar) {
+                resultDiv.innerHTML += `<img src="${avatar}" alt="Аватар гравця" style="max-width: 100px; border-radius: 50%;">`;
+            }
+        } catch (error) {
+            document.getElementById('chessResult').innerHTML = 'Помилка: ' + error.message;
         }
-
-        const words1 = input1.replace(/[.,!?]/g, '').split(/\s+/).filter(word => word);
-        const words2 = input2.replace(/[.,!?]/g, '').split(/\s+/).filter(word => word);
-
-        const set1 = new Set(words1);
-        const set2 = new Set(words2);
-
-        const commonWords = [...set1].filter(word => set2.has(word));
-
-        const result = document.getElementById('result');
-        if (commonWords.length > 0) {
-            result.textContent = 'Спільні слова: ' + commonWords.join(', ');
-        } else {
-            result.textContent = 'Немає спільних слів.';
-        }
-    });
+    }
+    document.getElementById('fetchChessBtn')?.addEventListener('click', fetchChessPlayer);
 });

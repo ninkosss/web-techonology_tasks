@@ -57,12 +57,78 @@ $currentPage = basename($_SERVER['PHP_SELF']) ?: 'index.php';
                 <img src="./img/joystick.svg" alt="Геймпад">
             </div>
             <div style="text-align: center; margin-top: 50px">
-                <h2>Порівняння</h2>
-                <input id="textInput1" type="text" placeholder="Введіть текст..." style="width: 300px; padding: 8px; margin: 10px" /><br>
-                <input id="textInput2" type="text" placeholder="Введіть текст..." style="width: 300px; padding: 8px; margin: 10px" /><br>
-                <button id="checkBtn">Перевірити</button>
-                <p id="result"></p>
+                <h2>API Chess (Games)</h2>
+                <button id="fetchChessBtn">Отримати дані про гравця</button>
+                <div id="chessResult"></div>
             </div>
+            <?php // Оголошення абстрактного класу User та його підкласів Student і Teacher
+            abstract class User {
+                private $name;
+                private $email;
+                public function __construct($name, $email) {
+                    $this->name = $name;
+                    $this->email = $email;
+                }
+                abstract public function getRole();
+                public function getName() {
+                    return $this->name;
+                }
+                public function setName($name) {
+                    $this->name = $name;
+                }
+                public function getEmail() {
+                    return $this->email;
+                }
+                public function setEmail($email) {
+                    $this->email = $email;
+                }
+            }
+            class Student extends User {
+                private $group;
+                public function __construct($name, $email, $group) {
+                    parent::__construct($name, $email);
+                    $this->group = $group;
+                }
+                public function getRole() {
+                    return "Студент";
+                }
+                public function getGroup() {
+                    return $this->group;
+                }
+                public function setGroup($group) {
+                    $this->group = $group;
+                }
+            }
+            class Teacher extends User {
+                private $subject;
+                public function __construct($name, $email, $subject) {
+                    parent::__construct($name, $email);
+                    $this->subject = $subject;
+                }
+                public function getRole() {
+                    return "Викладач";
+                }
+                public function getSubject() {
+                    return $this->subject;
+                }
+                public function setSubject($subject) {
+                    $this->subject = $subject;
+                }
+            }
+            $student = new Student("Inna", "skryyypinna@gmail.com", "KN_24");
+            $teacher = new Teacher("Ksusha", "ksushasum@gmail.com", "Physics");
+            echo "<div style='margin: 10px; padding: 10px; background: #000000; border-radius: 5px;'>";
+            echo "<h3>Інформація про користувачів:</h3>";
+            echo "<p>Ім'я: " . $student->getName() . "</p>";
+            echo "<p>Email: " . $student->getEmail() . "</p>";
+            echo "<p>Роль: " . $student->getRole() . "</p>";
+            echo "<p>Група: " . $student->getGroup() . "</p><hr>";
+            echo "<p>Ім'я: " . $teacher->getName() . "</p>";
+            echo "<p>Email: " . $teacher->getEmail() . "</p>";
+            echo "<p>Роль: " . $teacher->getRole() . "</p>";
+            echo "<p>Предмет: " . $teacher->getSubject() . "</p>";
+            echo "</div>";
+            ?>
             <div class="container trending">
                 <a href="#" class="see-all">See all</a>
                 <h3>Currently Trending Games</h3>
